@@ -1,15 +1,16 @@
 package com.cleanup.todoc;
 
+import android.app.Application;
+import android.util.Log;
+
 import com.facebook.stetho.BuildConfig;
 import com.facebook.stetho.Stetho;
 
-public class Application extends android.app.Application {
+public class TodocApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
 
-        if(BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
-        }
+        Stetho.initializeWithDefaults(this);
     }
 }
