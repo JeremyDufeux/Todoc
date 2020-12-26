@@ -17,19 +17,19 @@ public class Project {
      * The unique identifier of the project
      */
     @PrimaryKey
-    private final long id;
+    private long id;
 
     /**
      * The name of the project
      */
     @NonNull
-    private final String name;
+    private String name;
 
     /**
      * The hex (ARGB) code of the color associated to the project
      */
     @ColorInt
-    private final int color;
+    private int color;
 
     /**
      * Instantiates a new Project.
@@ -38,7 +38,7 @@ public class Project {
      * @param name  the name of the project to set
      * @param color the hex (ARGB) code of the color associated to the project to set
      */
-    private Project(long id, @NonNull String name, @ColorInt int color) {
+    public Project(long id, @NonNull String name, @ColorInt int color) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -50,7 +50,7 @@ public class Project {
      * @return all the projects of the application
      */
     @NonNull
-    public static Project[] getAllProjects() {
+    public static Project[] getAllProjects() { // TODO
         return new Project[]{
                 new Project(1L, "Projet Tartampion", 0xFFEADAD1),
                 new Project(2L, "Projet Lucidia", 0xFFB4CDBA),
@@ -101,6 +101,33 @@ public class Project {
     @ColorInt
     public int getColor() {
         return color;
+    }
+
+    /**
+     * Sets the unique identifier of the project.
+     *
+     * @param id the unique identifier of the project to set
+     */
+    public void setId(long id){
+        this.id = id;
+    }
+
+    /**
+     * Sets the name of the project.
+     *
+     * @param name the unique identifier of the project to set
+     */
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the color of the project.
+     *
+     * @param color the unique identifier of the project to set
+     */
+    public void setColor(int color) {
+        this.color = color;
     }
 
     @Override
