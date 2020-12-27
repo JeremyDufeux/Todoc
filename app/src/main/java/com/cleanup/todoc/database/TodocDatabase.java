@@ -8,6 +8,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.database.dao.TaskDao;
@@ -51,14 +52,18 @@ public abstract class TodocDatabase extends RoomDatabase {
                 contentValues.put("id", 1L);
                 contentValues.put("name", "Projet Tartampion");
                 contentValues.put("color", 0xFFEADAD1);
+                db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
 
                 contentValues.put("id", 2L);
                 contentValues.put("name", "Projet Lucidia");
                 contentValues.put("color", 0xFFB4CDBA);
+                db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
 
                 contentValues.put("id", 3L);
                 contentValues.put("name", "Projet Circus");
                 contentValues.put("color", 0xFFA3CED2);
+                db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
+
             }
         };
     }

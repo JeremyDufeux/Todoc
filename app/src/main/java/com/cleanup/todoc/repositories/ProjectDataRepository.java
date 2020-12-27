@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 
 import com.cleanup.todoc.database.dao.ProjectDao;
 import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 

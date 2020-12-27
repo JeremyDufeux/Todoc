@@ -22,11 +22,11 @@ public class Injection {
         return new TaskDataRepository(database.taskDao());
     }
 
-    public Executor provideExecutor(){
+    public static Executor provideExecutor(){
         return Executors.newSingleThreadExecutor();
     }
 
-    public ViewModelFactory provideViewModelFactory(Context context){
+    public static ViewModelFactory provideViewModelFactory(Context context){
         ProjectDataRepository dataSourceProject = provideProjectDataSource(context);
         TaskDataRepository dataSourceTask = provideTaskDataSource(context);
         Executor executor = provideExecutor();

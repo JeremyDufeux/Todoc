@@ -2,6 +2,7 @@ package com.cleanup.todoc.ui;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
 
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -10,9 +11,12 @@ import com.cleanup.todoc.repositories.TaskDataRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 public class MainViewModel extends ViewModel {
+    private static LiveData<List<Project>> projects;
+    private static LiveData<List<Task>> tasks;
 
     // -----------  Repositories  -----------
     private final ProjectDataRepository projectDataSource;
@@ -26,24 +30,32 @@ public class MainViewModel extends ViewModel {
     }
 
     public LiveData<List<Project>> getProjects(){
-        return projectDataSource.getProjects();
+        projects = projectDataSource.getProjects();
+        return projects;
     }
 
-    public LiveData<List<Task>> getTasks(long projectId){
-        return taskDataSource.getTasks(projectId);
+    public LiveData<List<Task>> getTasks(){
+        tasks = taskDataSource.getTasks();
+        return tasks;
     }
 
-    public void insertTask(String name, long projectId){
+    public void insertTask(Task task){
         executor.execute(() ->
-                taskDataSource.createTask(new Task(
-                        projectId,
-                        name,
-                        new Date().getTime())));
+                taskDataSource.createTask(task));
     }
 
     public void deleteTask(Task task){
         executor.execute(() ->
                 taskDataSource.deleteTask(task));
+    }
+
+    @Nullable
+    public static Project getProjectById(long projectId) {
+        for (Project project : Objects.requireNonNull(projects.getValue())) {
+            if (project.getId() == projectId)
+                return project;
+        }
+        return null;
     }
 
 

@@ -29,9 +29,6 @@ public class Task {
     /**
      * The name of the task
      */
-    // Suppress warning because setName is called in constructor
-    @SuppressWarnings("NullableProblems")
-    @NonNull
     private String name;
 
     /**
@@ -86,16 +83,6 @@ public class Task {
      */
     public long getProjectId() {
         return projectId;
-    }
-
-    /**
-     * Returns the project associated to the task.
-     *
-     * @return the project associated to the task
-     */
-    @Nullable
-    public Project getProject() {
-        return Project.getProjectById(projectId);
     }
 
     /**
