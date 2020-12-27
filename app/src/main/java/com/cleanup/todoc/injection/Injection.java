@@ -1,6 +1,6 @@
 package com.cleanup.todoc.injection;
 
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 
 import com.cleanup.todoc.database.TodocDatabase;
