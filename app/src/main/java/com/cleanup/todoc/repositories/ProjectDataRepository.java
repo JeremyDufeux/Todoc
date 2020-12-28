@@ -9,12 +9,18 @@ import java.util.List;
 
 public class ProjectDataRepository {
     private final ProjectDao projectDao;
+    private static LiveData<List<Project>> projects;
 
     public ProjectDataRepository(ProjectDao projectDao){
         this.projectDao = projectDao;
     }
 
     public LiveData<List<Project>> getProjects(){
-        return projectDao.getProjects();
+        projects = projectDao.getProjects();
+        return projects;
+    }
+
+    public static LiveData<List<Project>> getAllProjects(){
+        return projects;
     }
 }

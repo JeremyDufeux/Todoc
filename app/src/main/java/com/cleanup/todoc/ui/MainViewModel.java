@@ -14,48 +14,32 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 
 public class MainViewModel extends ViewModel {
-    private static LiveData<List<Project>> projects;
-    private static LiveData<List<Task>> tasks;
-
     // -----------  Repositories  -----------
-    private final ProjectDataRepository projectDataSource;
-    private final TaskDataRepository taskDataSource;
+    private final ProjectDataRepository projectDataRepository;
+    private final TaskDataRepository taskDataRepository;
     private final Executor executor;
 
-    public MainViewModel(ProjectDataRepository projectDataSource, TaskDataRepository taskDataSource, Executor executor) {
-        this.projectDataSource = projectDataSource;
-        this.taskDataSource = taskDataSource;
+    public MainViewModel(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
+        this.projectDataRepository = projectDataRepository;
+        this.taskDataRepository = taskDataRepository;
         this.executor = executor;
     }
 
     public LiveData<List<Project>> getProjects(){
-        projects = projectDataSource.getProjects();
-        return projects;
+        return projectDataRepository.getProjects();
     }
 
     public LiveData<List<Task>> getTasks(){
-        tasks = taskDataSource.getTasks();
-        return tasks;
+        return taskDataRepository.getTasks();
     }
 
     public void insertTask(Task task){
         executor.execute(() ->
-                taskDataSource.createTask(task));
+                taskDataRepository.createTask(task));
     }
 
     public void deleteTask(Task task){
         executor.execute(() ->
-                taskDataSource.deleteTask(task));
+                taskDataRepository.deleteTask(task));
     }
-
-    @Nullable
-    public static Project getProjectById(long projectId) {
-        for (Project project : Objects.requireNonNull(projects.getValue())) {
-            if (project.getId() == projectId)
-                return project;
-        }
-        return null;
-    }
-
-
 }
