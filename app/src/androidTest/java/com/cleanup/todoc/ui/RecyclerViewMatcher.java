@@ -1,4 +1,4 @@
-package com.cleanup.todoc;
+package com.cleanup.todoc.ui;
 
 import android.content.res.Resources;
 import androidx.recyclerview.widget.RecyclerView;
