@@ -3,14 +3,17 @@ package com.cleanup.todoc.ui;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import android.view.View;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.database.TodocDatabase;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 
 import java.util.Objects;
@@ -24,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.cleanup.todoc.ui.TestUtils.withRecyclerView;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -34,13 +38,23 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 public class MainActivityInstrumentedTest {
+
+    // To start test with a in memory database to avoid data conflicts
+    // Used here to be init before activity creation
     @Rule
-    //public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
+    public ExternalResource initRule = new ExternalResource() {
+        @Override
+        protected void before() throws Throwable {
+            super.before();
+            TodocDatabase.initDatabaseInMemory(InstrumentationRegistry.getInstrumentation().getTargetContext());
+        }
+    };
+
+    @Rule
     public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
     public void addAndRemoveTask() {
-        //MainActivity activity = rule.getActivity();
         AtomicReference<TextView> lblNoTask = new AtomicReference<>();
         AtomicReference<RecyclerView> listTasks = new AtomicReference<>();
 
@@ -69,7 +83,7 @@ public class MainActivityInstrumentedTest {
         // Check that recyclerView is not displayed anymore
         assertThat(listTasks.get().getVisibility(), equalTo(View.GONE));
     }
-/*
+
     @Test
     public void sortTasks() {
 
@@ -129,5 +143,5 @@ public class MainActivityInstrumentedTest {
                 .check(matches(withText("zzz Tâche example")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
                 .check(matches(withText("aaa Tâche example")));
-    }*/
+    }
 }

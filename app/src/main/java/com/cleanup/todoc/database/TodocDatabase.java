@@ -1,5 +1,6 @@
 package com.cleanup.todoc.database;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
@@ -39,6 +40,14 @@ public abstract class TodocDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    // Init database in memory for testing, to avoid data conflicts
+    @VisibleForTesting
+    public static void initDatabaseInMemory(Context context){
+        INSTANCE = Room.inMemoryDatabaseBuilder(context, TodocDatabase.class)
+                .allowMainThreadQueries()
+                .addCallback(prepopulateDatabase())
+                .build();
+    }
 
     // ----------- Populate -----------
     private static Callback prepopulateDatabase() {
@@ -62,7 +71,6 @@ public abstract class TodocDatabase extends RoomDatabase {
                 contentValues.put("name", "Projet Circus");
                 contentValues.put("color", 0xFFA3CED2);
                 db.insert("Project", OnConflictStrategy.IGNORE, contentValues);
-
             }
         };
     }
