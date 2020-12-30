@@ -25,6 +25,7 @@ import com.cleanup.todoc.injection.Injection;
 import com.cleanup.todoc.injection.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.model.TaskWithProject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all current tasks of the application
      */
-    private List<Task> tasks;
+    private List<TaskWithProject> tasks;
 
     /**
      * The adapter which handles the list of tasks
@@ -124,14 +125,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     private void getCurrentTasks() {
-        viewModel.getTasks().observe(this, this::updateTasksList);
+        viewModel.getTaskWithProjects().observe(this, this::updateTasksList);
     }
 
     private void updateProjectsList(List<Project> projects) {
         allProjects = projects;
     }
 
-    private void updateTasksList(List<Task> tasks) {
+    private void updateTasksList(List<TaskWithProject> tasks) {
         this.tasks = tasks;
 
         updateTasks();

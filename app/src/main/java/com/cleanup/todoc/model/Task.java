@@ -49,6 +49,13 @@ public class Task {
         this.setCreationTimestamp(creationTimestamp);
     }
 
+    public Task(Task task){
+        this.id = task.getId();
+        this.name = task.getName();
+        this.projectId = task.getProjectId();
+        this.creationTimestamp = task.getCreationTimestamp();
+    }
+
     /**
      * Returns the unique identifier of the task.
      *
