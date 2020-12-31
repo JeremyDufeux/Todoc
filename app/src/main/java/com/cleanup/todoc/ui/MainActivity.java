@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -82,6 +83,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     private Spinner dialogSpinner = null;
 
     /**
+     * EditText that allows user to set the name of a task
+     */
+    private ProgressBar loadingProgressBar;
+
+    /**
      * The RecyclerView which displays the list of tasks
      */
     private RecyclerView listTasks;
@@ -97,14 +103,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         setContentView(R.layout.activity_main);
 
-        listTasks = findViewById(R.id.list_tasks);
-        lblNoTasks = findViewById(R.id.lbl_no_task);
-
+        configureUi();
         configureRecyclerView();
         configureViewModel();
         getCurrentProjects();
         getCurrentTasks();
 
+    }
+
+    private void configureUi(){
+        loadingProgressBar = findViewById(R.id.progressBar);
+        listTasks = findViewById(R.id.list_tasks);
+        lblNoTasks = findViewById(R.id.lbl_no_task);
+
+        loadingProgressBar.setVisibility(View.VISIBLE);
+        lblNoTasks.setVisibility(View.GONE);
+        listTasks.setVisibility(View.GONE);
 
         findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
     }
@@ -133,9 +147,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     private void updateTasksList(List<TaskWithProject> tasks) {
-        this.tasks = tasks;
-
-        updateTasks();
+        if(tasks!=null) {
+            loadingProgressBar.setVisibility(View.GONE);
+            this.tasks = tasks;
+            updateTasks();
+        }
     }
 
     @Override
@@ -191,9 +207,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
             // If both project and name of the task have been set
             else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
-                long id = (long) (Math.random() * 50000);
-
 
                 Task task = new Task(
                         taskProject.getId(),
@@ -220,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * Shows the Dialog for adding a Task
      */
     private void showAddTaskDialog() {
-        Log.d("Debug", "showAddTaskDialog:  : ");
         final AlertDialog dialog = getAddTaskDialog();
 
         dialog.show();

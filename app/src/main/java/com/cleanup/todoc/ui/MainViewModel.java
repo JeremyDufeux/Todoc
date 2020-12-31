@@ -40,12 +40,13 @@ public class MainViewModel extends ViewModel {
     public LiveData<List<TaskWithProject>> getTaskWithProjects() {
         CombinedLiveData<List<Project>, List<Task>> combineData = new CombinedLiveData(projectList, taskList);
         return Transformations.map(combineData, input -> {
-            List<TaskWithProject> output = new ArrayList<>();
-
             List<Project> projects = input.first;
             List<Task> tasks = input.second;
 
             if(tasks != null && projects !=null) {
+
+                List<TaskWithProject> output = new ArrayList<>();
+
                 for (Task task : tasks) {
                     for (Project project : projects) {
                         if (task.getProjectId() == project.getId()) {
@@ -53,8 +54,9 @@ public class MainViewModel extends ViewModel {
                         }
                     }
                 }
+                return output;
             }
-            return output;
+            return null;
         });
     }
 
