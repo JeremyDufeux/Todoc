@@ -134,9 +134,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     @Override
-    public void onDeleteTask(Task task) {
-        tasks.remove(task);
-        updateTasks();
+    public void onDeleteTask(Long id) {
+        viewModel.deleteTask(id);
     }
 
     /**
