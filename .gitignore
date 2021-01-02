@@ -10,3 +10,5 @@
 /Todoc-keystore.jks
 /app/release/app-release.aab
 /keystore.properties
+/app/release/output-metadata.json
+/app/release/app-release.apk
