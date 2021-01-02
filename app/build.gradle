@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.hiya.jacoco-android'
 
 // Create a variable called keystorePropertiesFile, and initialize it the
 // keystore.properties file, in the rootProject folder.
