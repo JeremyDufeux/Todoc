@@ -73,8 +73,8 @@ public class MainViewModel extends ViewModel {
                 taskDataRepository.createTask(task));
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(long id){
         executor.execute(() ->
-                taskDataRepository.deleteTask(task));
+                taskDataRepository.deleteTask(id));
     }
 }

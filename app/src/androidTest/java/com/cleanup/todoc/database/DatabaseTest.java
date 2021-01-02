@@ -73,14 +73,13 @@ public class DatabaseTest {
     @Test
     public void insertAndDeleteTasks() throws InterruptedException {
         database.projectDao().insertProject(PROJECT_A);
-        database.projectDao().insertProject(PROJECT_B);
         database.taskDao().insertTask(TASK_A);
-        database.taskDao().insertTask(TASK_B);
+
+        Task task = LiveDataTestUtil.getValue(database.taskDao().getTasks()).get(0);
+
+        database.taskDao().deleteTask(task.getId());
 
         List<Task> tasks = LiveDataTestUtil.getValue(database.taskDao().getTasks());
-
-        database.taskDao().deleteTask(tasks.get(0));
-
-        assertEquals(1, tasks.size());
+        assertTrue( tasks.isEmpty());
     }
 }
