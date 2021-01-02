@@ -12,14 +12,6 @@ def keystoreProperties = new Properties()
 
 android {
     compileSdkVersion 30
-    signingConfigs {
-        config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-        }
-    }
     defaultConfig {
         applicationId "com.cleanup.todoc"
         minSdkVersion 21
