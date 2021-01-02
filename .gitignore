@@ -6,7 +6,6 @@
 /build
 /captures
 .externalNativeBuild
-/gradle
 /private_key.pepk
 /Todoc-keystore.jks
 /app/release/app-release.aab
