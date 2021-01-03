@@ -15,7 +15,7 @@ import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
-@Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
+@Database(entities = {Task.class, Project.class}, version = 1)
 public abstract class TodocDatabase extends RoomDatabase {
 
     // -----------  Singleton  -----------
