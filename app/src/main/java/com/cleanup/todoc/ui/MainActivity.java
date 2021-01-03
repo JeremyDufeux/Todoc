@@ -9,6 +9,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -164,16 +166,17 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         if (id == R.id.filter_alphabetical) {
             sortMethod = SortMethod.ALPHABETICAL;
+            updateTasks();
         } else if (id == R.id.filter_alphabetical_inverted) {
             sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            updateTasks();
         } else if (id == R.id.filter_oldest_first) {
             sortMethod = SortMethod.OLD_FIRST;
+            updateTasks();
         } else if (id == R.id.filter_recent_first) {
             sortMethod = SortMethod.RECENT_FIRST;
+            updateTasks();
         }
-
-        updateTasks();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -273,9 +276,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 case OLD_FIRST:
                     Collections.sort(tasks, new Task.TaskOldComparator());
                     break;
-
             }
-            adapter.updateTasks(tasks);
+            ArrayList<TaskWithProject> newList = new ArrayList<>(tasks);
+            adapter.updateTasks(newList);
         }
     }
 

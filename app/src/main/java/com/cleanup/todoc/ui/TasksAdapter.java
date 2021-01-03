@@ -3,6 +3,8 @@ package com.cleanup.todoc.ui;
 import android.content.res.ColorStateList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 import com.cleanup.todoc.model.TaskWithProject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +26,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     /**
      * The list of tasks the adapter deals with
      */
-    @NonNull
-    private List<TaskWithProject> tasks = new ArrayList<>();
+    AsyncListDiffer<TaskWithProject> differTaskList;
 
     /**
      * The listener for when a task needs to be deleted
@@ -42,6 +41,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      */
     TasksAdapter(@NonNull final DeleteTaskListener deleteTaskListener) {
         this.deleteTaskListener = deleteTaskListener;
+        differTaskList = new AsyncListDiffer<>(this, new DifferCallback());
     }
 
     /**
@@ -50,8 +50,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      * @param tasks the list of tasks the adapter deals with to set
      */
     void updateTasks(List<TaskWithProject> tasks) {
-        this.tasks = tasks;
-        notifyDataSetChanged();
+        differTaskList.submitList(tasks);
     }
 
     @NonNull
@@ -63,12 +62,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int position) {
-        taskViewHolder.bind(tasks.get(position));
+        taskViewHolder.bind(differTaskList.getCurrentList().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return tasks.size();
+        return differTaskList.getCurrentList().size();
     }
 
     /**
@@ -155,6 +154,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 lblProjectName.setText("");
             }
 
+        }
+    }
+
+    public static class DifferCallback extends DiffUtil.ItemCallback<TaskWithProject> {
+        public boolean areItemsTheSame(TaskWithProject oldItem, TaskWithProject newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        public boolean areContentsTheSame(TaskWithProject oldItem, @NonNull TaskWithProject newItem) {
+            return oldItem.getName().equals(newItem.getName());
         }
     }
 }
