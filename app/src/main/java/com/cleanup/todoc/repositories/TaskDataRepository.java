@@ -1,9 +1,6 @@
 package com.cleanup.todoc.repositories;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
-import androidx.annotation.Nullable;
 
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Task;

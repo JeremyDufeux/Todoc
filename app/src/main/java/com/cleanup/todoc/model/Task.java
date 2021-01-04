@@ -5,7 +5,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Comparator;
 

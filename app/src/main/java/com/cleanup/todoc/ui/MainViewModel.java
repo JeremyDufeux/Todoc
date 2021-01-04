@@ -1,7 +1,5 @@
 package com.cleanup.todoc.ui;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -27,11 +25,13 @@ public class MainViewModel extends ViewModel {
     private final TaskDataRepository taskDataRepository;
     private final Executor executor;
 
+    // -----------  Live Data  -----------
     private final LiveData<List<Project>> projectList;
     private final LiveData<List<Task>> taskList;
 
     private final MutableLiveData<SortMethod> sortMethodLiveData;
 
+    // -----------  Init ViewModel  -----------
     public MainViewModel(ProjectDataRepository projectDataRepository, TaskDataRepository taskDataRepository, Executor executor) {
         this.projectDataRepository = projectDataRepository;
         this.taskDataRepository = taskDataRepository;
@@ -44,6 +44,7 @@ public class MainViewModel extends ViewModel {
         sortMethodLiveData.setValue(SortMethod.NONE);
     }
 
+    // -----------  Combine Task with project and sort list  -----------
     public LiveData<List<TaskWithProject>> getTaskWithProjects() {
         CombinedLiveData<List<Project>, List<Task>> combineTaskAndProject = new CombinedLiveData<>(projectList, taskList);
 
@@ -89,22 +90,26 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void setSortMethod(SortMethod sortMethod){
-        sortMethodLiveData.setValue(sortMethod);
-    }
-
+    // -----------  return projects list  -----------
     public LiveData<List<Project>> getProjects(){
         return projectList;
     }
 
+    // -----------  Add new task  -----------
     public void insertTask(Task task){
         executor.execute(() ->
                 taskDataRepository.createTask(task));
     }
 
+    // -----------  Delete task with id  -----------
     public void deleteTask(long id){
         executor.execute(() ->
                 taskDataRepository.deleteTask(id));
+    }
+
+    // -----------  Set sort tasks methods  -----------
+    public void setSortMethod(SortMethod sortMethod){
+        sortMethodLiveData.setValue(sortMethod);
     }
 
     /**
