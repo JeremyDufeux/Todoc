@@ -3,6 +3,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.hiya.jacoco-android'
 
 android {
+    signingConfigs {
+        release {
+            def keystorePassword = System.getenv("MY_KEYSTORE_PASS")
+            def kAlias = System.getenv("MY_KEY_ALIAS")
+            def kPass = System.getenv("MY_KEY_PASS")
+
+            storeFile file("Todoc-keystore.jks")
+            storePassword "$keystorePassword"
+            keyAlias = "$kAlias"
+            keyPassword "$kPass"
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -25,8 +37,8 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-
         debug {
             testCoverageEnabled true
         }
