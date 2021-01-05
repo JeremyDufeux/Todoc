@@ -47,7 +47,6 @@ public abstract class TodocDatabase extends RoomDatabase {
     public static void initDatabaseInMemory(Context context){
         INSTANCE = Room.inMemoryDatabaseBuilder(context, TodocDatabase.class)
                 .addMigrations(MIGRATION_1_2)
-                .allowMainThreadQueries()
                 .addCallback(prepopulateDatabase())
                 .build();
     }

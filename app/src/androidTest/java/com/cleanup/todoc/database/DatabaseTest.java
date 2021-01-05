@@ -79,7 +79,7 @@ public class DatabaseTest {
             Assert.fail("Should have thrown SQLiteConstraintException exception");
         }
         catch(SQLiteConstraintException e) {
-            //success
+            // Success
         }
     }
 
