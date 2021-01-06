@@ -4,9 +4,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.cleanup.todoc.repositories.ProjectDataRepository;
 
 /**
  * <p>Models for project in which tasks are included.</p>
@@ -44,22 +41,6 @@ public class Project {
         this.id = id;
         this.name = name;
         this.color = color;
-    }
-
-    /**
-     * Returns the project with the given unique identifier, or null if no project with that
-     * identifier can be found.
-     *
-     * @param id the unique identifier of the project to return
-     * @return the project with the given unique identifier, or null if it has not been found
-     */
-    @Nullable
-    public static Project getProjectById(long id) {
-        for (Project project : ProjectDataRepository.getAllProjects().getValue()) {
-            if (project.id == id)
-                return project;
-        }
-        return null;
     }
 
     /**

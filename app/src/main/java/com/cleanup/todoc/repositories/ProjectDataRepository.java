@@ -19,8 +19,4 @@ public class ProjectDataRepository {
         projects = projectDao.getProjects();
         return projects;
     }
-
-    public static LiveData<List<Project>> getAllProjects(){
-        return projects;
-    }
 }

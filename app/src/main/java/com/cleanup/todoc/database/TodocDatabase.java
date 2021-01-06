@@ -1,6 +1,7 @@
 package com.cleanup.todoc.database;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
@@ -15,7 +16,7 @@ import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
-@Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
+@Database(entities = {Task.class, Project.class}, version = 2)
 public abstract class TodocDatabase extends RoomDatabase {
 
     // -----------  Singleton  -----------
@@ -32,6 +33,7 @@ public abstract class TodocDatabase extends RoomDatabase {
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TodocDatabase.class, "TodocDatabase.db")
+                            .addMigrations(MIGRATION_1_2)
                             .addCallback(prepopulateDatabase())
                             .build();
                 }
@@ -44,10 +46,18 @@ public abstract class TodocDatabase extends RoomDatabase {
     @VisibleForTesting
     public static void initDatabaseInMemory(Context context){
         INSTANCE = Room.inMemoryDatabaseBuilder(context, TodocDatabase.class)
-                .allowMainThreadQueries()
+                .addMigrations(MIGRATION_1_2)
                 .addCallback(prepopulateDatabase())
                 .build();
     }
+
+    // ----------- Migration -----------
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE INDEX project_id ON Task (projectId)");
+        }
+    };
 
     // ----------- Populate -----------
     private static Callback prepopulateDatabase() {

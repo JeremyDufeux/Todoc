@@ -1,7 +1,6 @@
 package com.cleanup.todoc.ui;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -10,7 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +26,9 @@ import com.cleanup.todoc.injection.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 import com.cleanup.todoc.model.TaskWithProject;
+import com.cleanup.todoc.ui.MainViewModel.SortMethod;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -57,12 +56,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * The adapter which handles the list of tasks
      */
     private TasksAdapter adapter;
-
-    /**
-     * The sort method to be used to display tasks
-     */
-    @NonNull
-    private SortMethod sortMethod = SortMethod.NONE;
 
     /**
      * Dialog to create a new task
@@ -138,12 +131,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         viewModel.getProjects().observe(this, this::updateProjectsList);
     }
 
-    private void getCurrentTasks() {
-        viewModel.getTaskWithProjects().observe(this, this::updateTasksList);
-    }
-
     private void updateProjectsList(List<Project> projects) {
         allProjects = projects;
+    }
+
+    private void getCurrentTasks() {
+        viewModel.getTaskWithProjects().observe(this, this::updateTasksList);
     }
 
     private void updateTasksList(List<TaskWithProject> tasks) {
@@ -151,6 +144,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             loadingProgressBar.setVisibility(View.GONE);
             this.tasks = tasks;
             updateTasks();
+        }
+    }
+
+    /**
+     * Updates the list of tasks in the UI
+     */
+    private void updateTasks() {
+        if (tasks.size() == 0) {
+            lblNoTasks.setVisibility(View.VISIBLE);
+            listTasks.setVisibility(View.GONE);
+        } else {
+            lblNoTasks.setVisibility(View.GONE);
+            listTasks.setVisibility(View.VISIBLE);
+
+            adapter.updateTasks(new ArrayList<>(tasks));
         }
     }
 
@@ -165,17 +173,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         int id = item.getItemId();
 
         if (id == R.id.filter_alphabetical) {
-            sortMethod = SortMethod.ALPHABETICAL;
+            viewModel.setSortMethod(SortMethod.ALPHABETICAL);
         } else if (id == R.id.filter_alphabetical_inverted) {
-            sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+            viewModel.setSortMethod(SortMethod.ALPHABETICAL_INVERTED);
         } else if (id == R.id.filter_oldest_first) {
-            sortMethod = SortMethod.OLD_FIRST;
+            viewModel.setSortMethod(SortMethod.OLD_FIRST);
         } else if (id == R.id.filter_recent_first) {
-            sortMethod = SortMethod.RECENT_FIRST;
+            viewModel.setSortMethod(SortMethod.RECENT_FIRST);
         }
-
-        updateTasks();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -253,35 +258,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     /**
-     * Updates the list of tasks in the UI
-     */
-    private void updateTasks() {
-        if (tasks.size() == 0) {
-            lblNoTasks.setVisibility(View.VISIBLE);
-            listTasks.setVisibility(View.GONE);
-        } else {
-            lblNoTasks.setVisibility(View.GONE);
-            listTasks.setVisibility(View.VISIBLE);
-            switch (sortMethod) {
-                case ALPHABETICAL:
-                    Collections.sort(tasks, new Task.TaskAZComparator());
-                    break;
-                case ALPHABETICAL_INVERTED:
-                    Collections.sort(tasks, new Task.TaskZAComparator());
-                    break;
-                case RECENT_FIRST:
-                    Collections.sort(tasks, new Task.TaskRecentComparator());
-                    break;
-                case OLD_FIRST:
-                    Collections.sort(tasks, new Task.TaskOldComparator());
-                    break;
-
-            }
-            adapter.updateTasks(tasks);
-        }
-    }
-
-    /**
      * Returns the dialog allowing the user to create a new task.
      *
      * @return the dialog allowing the user to create a new task
@@ -321,31 +297,5 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         if (dialogSpinner != null) {
             dialogSpinner.setAdapter(adapter);
         }
-    }
-
-    /**
-     * List of all possible sort methods for task
-     */
-    private enum SortMethod {
-        /**
-         * Sort alphabetical by name
-         */
-        ALPHABETICAL,
-        /**
-         * Inverted sort alphabetical by name
-         */
-        ALPHABETICAL_INVERTED,
-        /**
-         * Lastly created first
-         */
-        RECENT_FIRST,
-        /**
-         * First created first
-         */
-        OLD_FIRST,
-        /**
-         * No sort
-         */
-        NONE
     }
 }

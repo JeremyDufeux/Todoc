@@ -1,29 +1,28 @@
 language: android
 jdk: oraclejdk8
-
 env:
   global:
-    - ANDROID_API_LEVEL=27
-    - EMULATOR_API_LEVEL=22
-    - ANDROID_BUILD_TOOLS_VERSION=27.0.3
-    - ANDROID_ABI=armeabi-v7a
-
+  - ANDROID_API_LEVEL=27
+  - EMULATOR_API_LEVEL=22
+  - ANDROID_BUILD_TOOLS_VERSION=27.0.3
+  - ANDROID_ABI=armeabi-v7a
+  - secure: bpvZ4ohLVkXfVvY2N/i0iS3yPerV3e0MMab+VrBvMIA19BKYfUgKOGXBKPjNpzVoy5vM9z6nudU3AJthXHti+duGtkCbQaoPex0+Vcr1JyVT1hENEbWtDwaHetpV7A0/fCVzBnBoS0H/0XebljsjUiI0qDrgV2/ZNhzEewaWh8cJpclcw6AC0j24sVioR+7v31MpXnF8pFJrZOyS9Z47X5daydyKrBwh0CLgdyb+xj78GLFw0lYb+5ERvam/7gg9RoAPcd9rZh7jc18wiU5qJl6ENyhUNb9oLJtSnpUzH4P2w31i0A5P6uwHGQhyY7q9qLiMCXO9m9WMmms0DOcQUpOewavDIASXePZfyCkyJ+elnVG2du6UNbNpQo2jmg+IwHnWLE9hXdbvpDtiWXe3irvlrkgLgaElQ6LpMAKlfU2EUm7TfqId/W4x2l1H2mZ0RmvVDm02jAL8+lQ/1nH96xACx5Hp3mIc6i8NPWJvHyM6k3a5uJrJLs9f42j9GZ9cwmAYIe86oCmhtMi+9lBodtKmEdn91oFjXVmijWoj6HykwDxDB2svP0cYPjSRUOlB8IN4eLczOUjeHDx+QYmpRQ4QIv7qBdnttCib9ofwMJn2MZ5n8cAHUeLAuLbo0z25cWmRRznvDwkgoiQ2SIvajSCISEA+o4pVrZgj8Eu7KcE=
+  - secure: bC6S6FNDLoYRyoKrBaCd0QKlwoCPiPZuVDBvE+rvD8tIS99OXrUNImKP8cr0gO6Tl+ertm7r9NYtM4XFDG+oi/qhiGRF64/p2U9o1kjtdDGDee+MiS4Qy9Z9+4NgLStggCOHdohudXYcMGj1MiBjKR+0oxju03OaDiVkuAANfIXmc6HPIfFb+wsYiX/fBbHNWBjBYy/7BV4/gxXzOEEpFkk6/jarSUn7cO/hfLiijzzbTbq5L4lyKq3pb5+iRuZLDT3OgG3iIx/we+RVpy5XzDACG1ihWBSqpiizhMljwJ8BdeB+WkiDBavNG/OQcvmoSVywFmkKknkgWazZ7pgto3J2hIOVtFo5ZsP/1WTICBhHpzSz+0t2RZ79J83XPN3rae6ND+HSFT0/K8Dq4brZfSZaCam5avgg0Xm9HfVToQ34HP+ekAJf1kFCLWpWG9CvNKzTutWJEqK+3LJvNKpgeutJ0KBvu5Fco9KVRmephWi+aDaYkfrCP+qKOn8m7RLFkAMUox6jroGJlz6+hkS43zcom4tyOZYvlfDMsWqkp7F0BMx2d4GE1cr51PnKF8RNmenOTDMDRiu3pEuS4uIF0+msqXI99/z25vFH2iXOKffZYqekpypDFaCy2GmrFyS7zy2cgNUNCnXBsYq4IG11U4SR/fHs9JgaomNCdDA9Giw=
+  - secure: C0TLLl18ol/O55sN0ywLwPXdGW3yuGVWPeLFPax87Sm7mtif2u1v4ZqWpHS4qSiXK+kkdHZyuEKz7c1su59hJExY/l54EeL0pyHjRzv+tZs2AGLGPacmxUGisGESwjBMniO5MvBE5/rpw79eyAdeXT4AwMo8QT6vJYBS+Wv0VH6TIV6rD/VFazlni/3OPHGwabzXQxeP601eatfPGffS0irkeBjURH5WMFY5T5Y6cVjenk8TCAb74x+ynstZbwUeDyA3lD7ekZBbaSuFylvUKvU8jct4x+i91LjezZ9Nb9mfrXy7hzcB3vIjsYZzveVdR3TIHRWZOjnPU0w71i329JS3YWvAFOo2qAo0WrK7633MQ6R37sLguGrBmvcTfZ/ndvVa38qcjU985/HloVZ7XMqQ5/xJAfv795ODBAMhCwVR8oEHGrC4lIblfSjyI5cASjXe51CEnMVngOdADfnx911aQ/JG1y4E57fCtKhRN7dGQG+O0JH7sibB+unZ+IYPVD4Cv+lynIe2/fRh3CQKGZR1xwftBugT96NmeAvtX5Es+LMj9Ph2FgH/7UjF9lAHSu0rBTzTi6iK+JesMTfCIXTVF//FlObi/2fH+CSpQQL4zIpC0kxfPeV06grme1qZkOp9B/YLWnyBh5zzoyL5xmQrqXzT6rCWDiHok63dTOQ=
 android:
   components:
-    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
-    - android-$EMULATOR_API_LEVEL
-    - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
-
+  - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+  - android-$EMULATOR_API_LEVEL
+  - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 before_install:
-  - yes | sdkmanager "platforms;android-27"
-
+- yes | sdkmanager "platforms;android-27"
 before_script:
-  - chmod +x gradlew
-  - ./gradlew build jacocoTestReport assembleAndroidTest
-  - echo no | android create avd --force -n test -t android-$EMULATOR_API_LEVEL --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - ./gradlew connectedCheck
-
+- chmod +x gradlew
+- "./gradlew build jacocoTestReport assembleAndroidTest"
+- echo no | android create avd --force -n test -t android-$EMULATOR_API_LEVEL --abi
+  $ANDROID_ABI
+- emulator -avd test -no-skin -no-audio -no-window &
+- android-wait-for-emulator
+- "./gradlew connectedCheck"
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)

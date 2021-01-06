@@ -1,6 +1,7 @@
 package com.cleanup.todoc.database;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
@@ -11,6 +12,7 @@ import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,8 +68,19 @@ public class DatabaseTest {
         database.taskDao().insertTask(TASK_B);
 
         List<Task> tasks = LiveDataTestUtil.getValue(database.taskDao().getTasks());
-
         assertEquals(2, tasks.size());
+    }
+    
+    @Test
+    public void failToInsertTaskWithNonexistentProject() {
+        try
+        {
+            database.taskDao().insertTask(TASK_A);
+            Assert.fail("Should have thrown SQLiteConstraintException exception");
+        }
+        catch(SQLiteConstraintException e) {
+            // Success
+        }
     }
 
     @Test
